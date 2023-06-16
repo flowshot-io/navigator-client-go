@@ -24,17 +24,22 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateMultipartUploadRequest struct {
+type File struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AssetID string `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
-	Key     string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
+	FileID      string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
+	AssetID     string `protobuf:"bytes,2,opt,name=assetID,proto3" json:"assetID,omitempty"`
+	MultipartID string `protobuf:"bytes,3,opt,name=multipartID,proto3" json:"multipartID,omitempty"`
+	Key         string `protobuf:"bytes,4,opt,name=key,proto3" json:"key,omitempty"`
+	Size        int64  `protobuf:"varint,5,opt,name=size,proto3" json:"size,omitempty"`
+	Status      string `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
+	IsMultipart bool   `protobuf:"varint,7,opt,name=isMultipart,proto3" json:"isMultipart,omitempty"`
 }
 
-func (x *CreateMultipartUploadRequest) Reset() {
-	*x = CreateMultipartUploadRequest{}
+func (x *File) Reset() {
+	*x = File{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -42,13 +47,13 @@ func (x *CreateMultipartUploadRequest) Reset() {
 	}
 }
 
-func (x *CreateMultipartUploadRequest) String() string {
+func (x *File) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateMultipartUploadRequest) ProtoMessage() {}
+func (*File) ProtoMessage() {}
 
-func (x *CreateMultipartUploadRequest) ProtoReflect() protoreflect.Message {
+func (x *File) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -60,35 +65,72 @@ func (x *CreateMultipartUploadRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateMultipartUploadRequest.ProtoReflect.Descriptor instead.
-func (*CreateMultipartUploadRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use File.ProtoReflect.Descriptor instead.
+func (*File) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateMultipartUploadRequest) GetAssetID() string {
+func (x *File) GetFileID() string {
+	if x != nil {
+		return x.FileID
+	}
+	return ""
+}
+
+func (x *File) GetAssetID() string {
 	if x != nil {
 		return x.AssetID
 	}
 	return ""
 }
 
-func (x *CreateMultipartUploadRequest) GetKey() string {
+func (x *File) GetMultipartID() string {
+	if x != nil {
+		return x.MultipartID
+	}
+	return ""
+}
+
+func (x *File) GetKey() string {
 	if x != nil {
 		return x.Key
 	}
 	return ""
 }
 
-type CreateMultipartUploadResponse struct {
+func (x *File) GetSize() int64 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *File) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *File) GetIsMultipart() bool {
+	if x != nil {
+		return x.IsMultipart
+	}
+	return false
+}
+
+type CreateFileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UploadID string `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
+	AssetID     string `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
+	Key         string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
+	IsMultipart bool   `protobuf:"varint,3,opt,name=isMultipart,proto3" json:"isMultipart,omitempty"`
 }
 
-func (x *CreateMultipartUploadResponse) Reset() {
-	*x = CreateMultipartUploadResponse{}
+func (x *CreateFileRequest) Reset() {
+	*x = CreateFileRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -96,13 +138,13 @@ func (x *CreateMultipartUploadResponse) Reset() {
 	}
 }
 
-func (x *CreateMultipartUploadResponse) String() string {
+func (x *CreateFileRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateMultipartUploadResponse) ProtoMessage() {}
+func (*CreateFileRequest) ProtoMessage() {}
 
-func (x *CreateMultipartUploadResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateFileRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -114,30 +156,42 @@ func (x *CreateMultipartUploadResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateMultipartUploadResponse.ProtoReflect.Descriptor instead.
-func (*CreateMultipartUploadResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateFileRequest.ProtoReflect.Descriptor instead.
+func (*CreateFileRequest) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateMultipartUploadResponse) GetUploadID() string {
+func (x *CreateFileRequest) GetAssetID() string {
 	if x != nil {
-		return x.UploadID
+		return x.AssetID
 	}
 	return ""
 }
 
-type UploadPartRequest struct {
+func (x *CreateFileRequest) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+func (x *CreateFileRequest) GetIsMultipart() bool {
+	if x != nil {
+		return x.IsMultipart
+	}
+	return false
+}
+
+type CreateFileResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UploadID   string `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
-	PartNumber int32  `protobuf:"varint,2,opt,name=partNumber,proto3" json:"partNumber,omitempty"`
-	Data       []byte `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	FileID string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
 }
 
-func (x *UploadPartRequest) Reset() {
-	*x = UploadPartRequest{}
+func (x *CreateFileResponse) Reset() {
+	*x = CreateFileResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -145,13 +199,13 @@ func (x *UploadPartRequest) Reset() {
 	}
 }
 
-func (x *UploadPartRequest) String() string {
+func (x *CreateFileResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UploadPartRequest) ProtoMessage() {}
+func (*CreateFileResponse) ProtoMessage() {}
 
-func (x *UploadPartRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateFileResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -163,43 +217,29 @@ func (x *UploadPartRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UploadPartRequest.ProtoReflect.Descriptor instead.
-func (*UploadPartRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateFileResponse.ProtoReflect.Descriptor instead.
+func (*CreateFileResponse) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UploadPartRequest) GetUploadID() string {
+func (x *CreateFileResponse) GetFileID() string {
 	if x != nil {
-		return x.UploadID
+		return x.FileID
 	}
 	return ""
 }
 
-func (x *UploadPartRequest) GetPartNumber() int32 {
-	if x != nil {
-		return x.PartNumber
-	}
-	return 0
-}
-
-func (x *UploadPartRequest) GetData() []byte {
-	if x != nil {
-		return x.Data
-	}
-	return nil
-}
-
-type UploadPartResponse struct {
+type WriteMultipartRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UploadID   string `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
-	PartNumber int32  `protobuf:"varint,2,opt,name=partNumber,proto3" json:"partNumber,omitempty"`
+	FileID     string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
+	PartNumber int64  `protobuf:"varint,2,opt,name=partNumber,proto3" json:"partNumber,omitempty"`
 }
 
-func (x *UploadPartResponse) Reset() {
-	*x = UploadPartResponse{}
+func (x *WriteMultipartRequest) Reset() {
+	*x = WriteMultipartRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -207,13 +247,13 @@ func (x *UploadPartResponse) Reset() {
 	}
 }
 
-func (x *UploadPartResponse) String() string {
+func (x *WriteMultipartRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UploadPartResponse) ProtoMessage() {}
+func (*WriteMultipartRequest) ProtoMessage() {}
 
-func (x *UploadPartResponse) ProtoReflect() protoreflect.Message {
+func (x *WriteMultipartRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -225,36 +265,33 @@ func (x *UploadPartResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UploadPartResponse.ProtoReflect.Descriptor instead.
-func (*UploadPartResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use WriteMultipartRequest.ProtoReflect.Descriptor instead.
+func (*WriteMultipartRequest) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UploadPartResponse) GetUploadID() string {
+func (x *WriteMultipartRequest) GetFileID() string {
 	if x != nil {
-		return x.UploadID
+		return x.FileID
 	}
 	return ""
 }
 
-func (x *UploadPartResponse) GetPartNumber() int32 {
+func (x *WriteMultipartRequest) GetPartNumber() int64 {
 	if x != nil {
 		return x.PartNumber
 	}
 	return 0
 }
 
-type CompleteMultipartUploadRequest struct {
+type WriteMultipartResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	UploadId    string  `protobuf:"bytes,1,opt,name=uploadId,proto3" json:"uploadId,omitempty"`
-	PartNumbers []int32 `protobuf:"varint,2,rep,packed,name=partNumbers,proto3" json:"partNumbers,omitempty"`
 }
 
-func (x *CompleteMultipartUploadRequest) Reset() {
-	*x = CompleteMultipartUploadRequest{}
+func (x *WriteMultipartResponse) Reset() {
+	*x = WriteMultipartResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -262,13 +299,13 @@ func (x *CompleteMultipartUploadRequest) Reset() {
 	}
 }
 
-func (x *CompleteMultipartUploadRequest) String() string {
+func (x *WriteMultipartResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CompleteMultipartUploadRequest) ProtoMessage() {}
+func (*WriteMultipartResponse) ProtoMessage() {}
 
-func (x *CompleteMultipartUploadRequest) ProtoReflect() protoreflect.Message {
+func (x *WriteMultipartResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -280,35 +317,22 @@ func (x *CompleteMultipartUploadRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CompleteMultipartUploadRequest.ProtoReflect.Descriptor instead.
-func (*CompleteMultipartUploadRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use WriteMultipartResponse.ProtoReflect.Descriptor instead.
+func (*WriteMultipartResponse) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CompleteMultipartUploadRequest) GetUploadId() string {
-	if x != nil {
-		return x.UploadId
-	}
-	return ""
-}
-
-func (x *CompleteMultipartUploadRequest) GetPartNumbers() []int32 {
-	if x != nil {
-		return x.PartNumbers
-	}
-	return nil
-}
-
-type CompleteMultipartUploadResponse struct {
+type CompleteMultipartRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	FileID      string  `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
+	PartNumbers []int64 `protobuf:"varint,2,rep,packed,name=partNumbers,proto3" json:"partNumbers,omitempty"`
 }
 
-func (x *CompleteMultipartUploadResponse) Reset() {
-	*x = CompleteMultipartUploadResponse{}
+func (x *CompleteMultipartRequest) Reset() {
+	*x = CompleteMultipartRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -316,13 +340,13 @@ func (x *CompleteMultipartUploadResponse) Reset() {
 	}
 }
 
-func (x *CompleteMultipartUploadResponse) String() string {
+func (x *CompleteMultipartRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CompleteMultipartUploadResponse) ProtoMessage() {}
+func (*CompleteMultipartRequest) ProtoMessage() {}
 
-func (x *CompleteMultipartUploadResponse) ProtoReflect() protoreflect.Message {
+func (x *CompleteMultipartRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -334,28 +358,33 @@ func (x *CompleteMultipartUploadResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CompleteMultipartUploadResponse.ProtoReflect.Descriptor instead.
-func (*CompleteMultipartUploadResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CompleteMultipartRequest.ProtoReflect.Descriptor instead.
+func (*CompleteMultipartRequest) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *CompleteMultipartUploadResponse) GetMessage() string {
+func (x *CompleteMultipartRequest) GetFileID() string {
 	if x != nil {
-		return x.Message
+		return x.FileID
 	}
 	return ""
 }
 
-type AbortMultipartUploadRequest struct {
+func (x *CompleteMultipartRequest) GetPartNumbers() []int64 {
+	if x != nil {
+		return x.PartNumbers
+	}
+	return nil
+}
+
+type CompleteMultipartResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	UploadID string `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
 }
 
-func (x *AbortMultipartUploadRequest) Reset() {
-	*x = AbortMultipartUploadRequest{}
+func (x *CompleteMultipartResponse) Reset() {
+	*x = CompleteMultipartResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -363,13 +392,13 @@ func (x *AbortMultipartUploadRequest) Reset() {
 	}
 }
 
-func (x *AbortMultipartUploadRequest) String() string {
+func (x *CompleteMultipartResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AbortMultipartUploadRequest) ProtoMessage() {}
+func (*CompleteMultipartResponse) ProtoMessage() {}
 
-func (x *AbortMultipartUploadRequest) ProtoReflect() protoreflect.Message {
+func (x *CompleteMultipartResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -381,28 +410,21 @@ func (x *AbortMultipartUploadRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AbortMultipartUploadRequest.ProtoReflect.Descriptor instead.
-func (*AbortMultipartUploadRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CompleteMultipartResponse.ProtoReflect.Descriptor instead.
+func (*CompleteMultipartResponse) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *AbortMultipartUploadRequest) GetUploadID() string {
-	if x != nil {
-		return x.UploadID
-	}
-	return ""
-}
-
-type AbortMultipartUploadResponse struct {
+type DeleteFileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	FileID string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
 }
 
-func (x *AbortMultipartUploadResponse) Reset() {
-	*x = AbortMultipartUploadResponse{}
+func (x *DeleteFileRequest) Reset() {
+	*x = DeleteFileRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -410,13 +432,13 @@ func (x *AbortMultipartUploadResponse) Reset() {
 	}
 }
 
-func (x *AbortMultipartUploadResponse) String() string {
+func (x *DeleteFileRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AbortMultipartUploadResponse) ProtoMessage() {}
+func (*DeleteFileRequest) ProtoMessage() {}
 
-func (x *AbortMultipartUploadResponse) ProtoReflect() protoreflect.Message {
+func (x *DeleteFileRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -428,16 +450,54 @@ func (x *AbortMultipartUploadResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AbortMultipartUploadResponse.ProtoReflect.Descriptor instead.
-func (*AbortMultipartUploadResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteFileRequest.ProtoReflect.Descriptor instead.
+func (*DeleteFileRequest) Descriptor() ([]byte, []int) {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *AbortMultipartUploadResponse) GetMessage() string {
+func (x *DeleteFileRequest) GetFileID() string {
 	if x != nil {
-		return x.Message
+		return x.FileID
 	}
 	return ""
+}
+
+type DeleteFileResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeleteFileResponse) Reset() {
+	*x = DeleteFileResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteFileResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteFileResponse) ProtoMessage() {}
+
+func (x *DeleteFileResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteFileResponse.ProtoReflect.Descriptor instead.
+func (*DeleteFileResponse) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{8}
 }
 
 type GetFileRequest struct {
@@ -445,14 +505,13 @@ type GetFileRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AssetID          string `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
-	StartChunkNumber int32  `protobuf:"varint,2,opt,name=startChunkNumber,proto3" json:"startChunkNumber,omitempty"`
+	FileID string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
 }
 
 func (x *GetFileRequest) Reset() {
 	*x = GetFileRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[8]
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -465,7 +524,7 @@ func (x *GetFileRequest) String() string {
 func (*GetFileRequest) ProtoMessage() {}
 
 func (x *GetFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[8]
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,21 +537,14 @@ func (x *GetFileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetFileRequest.ProtoReflect.Descriptor instead.
 func (*GetFileRequest) Descriptor() ([]byte, []int) {
-	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{8}
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *GetFileRequest) GetAssetID() string {
+func (x *GetFileRequest) GetFileID() string {
 	if x != nil {
-		return x.AssetID
+		return x.FileID
 	}
 	return ""
-}
-
-func (x *GetFileRequest) GetStartChunkNumber() int32 {
-	if x != nil {
-		return x.StartChunkNumber
-	}
-	return 0
 }
 
 type GetFileResponse struct {
@@ -500,15 +552,13 @@ type GetFileResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ChunkNumber         int32  `protobuf:"varint,1,opt,name=chunkNumber,proto3" json:"chunkNumber,omitempty"`
-	Data                []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-	IntegrityCheckValue string `protobuf:"bytes,3,opt,name=integrityCheckValue,proto3" json:"integrityCheckValue,omitempty"`
+	File *File `protobuf:"bytes,1,opt,name=file,proto3" json:"file,omitempty"`
 }
 
 func (x *GetFileResponse) Reset() {
 	*x = GetFileResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[9]
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -521,7 +571,7 @@ func (x *GetFileResponse) String() string {
 func (*GetFileResponse) ProtoMessage() {}
 
 func (x *GetFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[9]
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -534,24 +584,331 @@ func (x *GetFileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetFileResponse.ProtoReflect.Descriptor instead.
 func (*GetFileResponse) Descriptor() ([]byte, []int) {
-	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{9}
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *GetFileResponse) GetChunkNumber() int32 {
+func (x *GetFileResponse) GetFile() *File {
+	if x != nil {
+		return x.File
+	}
+	return nil
+}
+
+type ListFilesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListFilesRequest) Reset() {
+	*x = ListFilesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListFilesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListFilesRequest) ProtoMessage() {}
+
+func (x *ListFilesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListFilesRequest.ProtoReflect.Descriptor instead.
+func (*ListFilesRequest) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{11}
+}
+
+type ListFilesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	File []*File `protobuf:"bytes,1,rep,name=file,proto3" json:"file,omitempty"`
+}
+
+func (x *ListFilesResponse) Reset() {
+	*x = ListFilesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListFilesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListFilesResponse) ProtoMessage() {}
+
+func (x *ListFilesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListFilesResponse.ProtoReflect.Descriptor instead.
+func (*ListFilesResponse) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ListFilesResponse) GetFile() []*File {
+	if x != nil {
+		return x.File
+	}
+	return nil
+}
+
+type WriteFileRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FileID              string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
+	ChunkNumber         int64  `protobuf:"varint,2,opt,name=chunkNumber,proto3" json:"chunkNumber,omitempty"`
+	Data                []byte `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	IntegrityCheckValue string `protobuf:"bytes,4,opt,name=integrityCheckValue,proto3" json:"integrityCheckValue,omitempty"`
+}
+
+func (x *WriteFileRequest) Reset() {
+	*x = WriteFileRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WriteFileRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WriteFileRequest) ProtoMessage() {}
+
+func (x *WriteFileRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WriteFileRequest.ProtoReflect.Descriptor instead.
+func (*WriteFileRequest) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *WriteFileRequest) GetFileID() string {
+	if x != nil {
+		return x.FileID
+	}
+	return ""
+}
+
+func (x *WriteFileRequest) GetChunkNumber() int64 {
 	if x != nil {
 		return x.ChunkNumber
 	}
 	return 0
 }
 
-func (x *GetFileResponse) GetData() []byte {
+func (x *WriteFileRequest) GetData() []byte {
 	if x != nil {
 		return x.Data
 	}
 	return nil
 }
 
-func (x *GetFileResponse) GetIntegrityCheckValue() string {
+func (x *WriteFileRequest) GetIntegrityCheckValue() string {
+	if x != nil {
+		return x.IntegrityCheckValue
+	}
+	return ""
+}
+
+type WriteFileResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ChunkNumber int64 `protobuf:"varint,1,opt,name=chunkNumber,proto3" json:"chunkNumber,omitempty"`
+}
+
+func (x *WriteFileResponse) Reset() {
+	*x = WriteFileResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WriteFileResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WriteFileResponse) ProtoMessage() {}
+
+func (x *WriteFileResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WriteFileResponse.ProtoReflect.Descriptor instead.
+func (*WriteFileResponse) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *WriteFileResponse) GetChunkNumber() int64 {
+	if x != nil {
+		return x.ChunkNumber
+	}
+	return 0
+}
+
+type ReadFileRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FileID           string `protobuf:"bytes,1,opt,name=fileID,proto3" json:"fileID,omitempty"`
+	StartChunkNumber int64  `protobuf:"varint,2,opt,name=startChunkNumber,proto3" json:"startChunkNumber,omitempty"`
+}
+
+func (x *ReadFileRequest) Reset() {
+	*x = ReadFileRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ReadFileRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadFileRequest) ProtoMessage() {}
+
+func (x *ReadFileRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadFileRequest.ProtoReflect.Descriptor instead.
+func (*ReadFileRequest) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ReadFileRequest) GetFileID() string {
+	if x != nil {
+		return x.FileID
+	}
+	return ""
+}
+
+func (x *ReadFileRequest) GetStartChunkNumber() int64 {
+	if x != nil {
+		return x.StartChunkNumber
+	}
+	return 0
+}
+
+type ReadFileResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ChunkNumber         int64  `protobuf:"varint,1,opt,name=chunkNumber,proto3" json:"chunkNumber,omitempty"`
+	Data                []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	IntegrityCheckValue string `protobuf:"bytes,3,opt,name=integrityCheckValue,proto3" json:"integrityCheckValue,omitempty"`
+}
+
+func (x *ReadFileResponse) Reset() {
+	*x = ReadFileResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ReadFileResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReadFileResponse) ProtoMessage() {}
+
+func (x *ReadFileResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_fileservice_v1_service_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReadFileResponse.ProtoReflect.Descriptor instead.
+func (*ReadFileResponse) Descriptor() ([]byte, []int) {
+	return file_navigator_api_fileservice_v1_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ReadFileResponse) GetChunkNumber() int64 {
+	if x != nil {
+		return x.ChunkNumber
+	}
+	return 0
+}
+
+func (x *ReadFileResponse) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *ReadFileResponse) GetIntegrityCheckValue() string {
 	if x != nil {
 		return x.IntegrityCheckValue
 	}
@@ -566,109 +923,158 @@ var file_navigator_api_fileservice_v1_service_proto_rawDesc = []byte{
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x25, 0x66, 0x6c,
 	0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72,
 	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x2e, 0x76, 0x31, 0x22, 0x4a, 0x0a, 0x1c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x75, 0x6c,
-	0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x12, 0x10, 0x0a,
-	0x03, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x22,
-	0x3b, 0x0a, 0x1d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61,
-	0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x1a, 0x0a, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49, 0x44, 0x22, 0x63, 0x0a, 0x11,
-	0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x61, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49, 0x44, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49, 0x44, 0x12, 0x1e, 0x0a,
-	0x0a, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x05, 0x52, 0x0a, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x12, 0x0a,
-	0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74,
-	0x61, 0x22, 0x50, 0x0a, 0x12, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x61, 0x72, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61,
-	0x64, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61,
-	0x64, 0x49, 0x44, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65,
-	0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d,
-	0x62, 0x65, 0x72, 0x22, 0x5e, 0x0a, 0x1e, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d,
-	0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49,
-	0x64, 0x12, 0x20, 0x0a, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x73,
-	0x18, 0x02, 0x20, 0x03, 0x28, 0x05, 0x52, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62,
-	0x65, 0x72, 0x73, 0x22, 0x3b, 0x0a, 0x1f, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d,
-	0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
-	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x22, 0x39, 0x0a, 0x1b, 0x41, 0x62, 0x6f, 0x72, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61,
-	0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x1a, 0x0a, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x08, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x49, 0x44, 0x22, 0x38, 0x0a, 0x1c, 0x41,
-	0x62, 0x6f, 0x72, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c,
-	0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x56, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74,
-	0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49,
-	0x44, 0x12, 0x2a, 0x0a, 0x10, 0x73, 0x74, 0x61, 0x72, 0x74, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x4e,
-	0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x10, 0x73, 0x74, 0x61,
-	0x72, 0x74, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x79, 0x0a,
-	0x0f, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x20, 0x0a, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d, 0x62,
-	0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c,
-	0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x30, 0x0a, 0x13, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72,
-	0x69, 0x74, 0x79, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x13, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x69, 0x74, 0x79, 0x43, 0x68,
-	0x65, 0x63, 0x6b, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x32, 0xff, 0x05, 0x0a, 0x0b, 0x46, 0x69, 0x6c,
-	0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0xa2, 0x01, 0x0a, 0x15, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f,
-	0x61, 0x64, 0x12, 0x43, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61,
-	0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65,
-	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x44, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68,
-	0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55,
-	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x81, 0x01,
-	0x0a, 0x0a, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x61, 0x72, 0x74, 0x12, 0x38, 0x2e, 0x66,
-	0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f,
-	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x61, 0x72, 0x74, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x39, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f,
-	0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55,
-	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0xa8, 0x01, 0x0a, 0x17, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75,
-	0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x45, 0x2e,
+	0x2e, 0x76, 0x31, 0x22, 0xba, 0x01, 0x0a, 0x04, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x16, 0x0a, 0x06,
+	0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69,
+	0x6c, 0x65, 0x49, 0x44, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x12, 0x20,
+	0x0a, 0x0b, 0x6d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x49, 0x44, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0b, 0x6d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x49, 0x44,
+	0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b,
+	0x65, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x04, 0x73, 0x69, 0x7a, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x20,
+	0x0a, 0x0b, 0x69, 0x73, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x18, 0x07, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x0b, 0x69, 0x73, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74,
+	0x22, 0x61, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x12,
+	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65,
+	0x79, 0x12, 0x20, 0x0a, 0x0b, 0x69, 0x73, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x69, 0x73, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70,
+	0x61, 0x72, 0x74, 0x22, 0x2c, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x46, 0x69, 0x6c,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69, 0x6c,
+	0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49,
+	0x44, 0x22, 0x4f, 0x0a, 0x15, 0x57, 0x72, 0x69, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70,
+	0x61, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69,
+	0x6c, 0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x65,
+	0x49, 0x44, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62,
+	0x65, 0x72, 0x22, 0x18, 0x0a, 0x16, 0x57, 0x72, 0x69, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69,
+	0x70, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x54, 0x0a, 0x18,
+	0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x65,
+	0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44,
+	0x12, 0x20, 0x0a, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x18,
+	0x02, 0x20, 0x03, 0x28, 0x03, 0x52, 0x0b, 0x70, 0x61, 0x72, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65,
+	0x72, 0x73, 0x22, 0x1b, 0x0a, 0x19, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75,
+	0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x2b, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x22, 0x14, 0x0a, 0x12,
+	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x28, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x22, 0x52, 0x0a, 0x0f,
+	0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x3f, 0x0a, 0x04, 0x66, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e,
 	0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74,
 	0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75,
-	0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x46, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e,
+	0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x04, 0x66, 0x69, 0x6c, 0x65,
+	0x22, 0x12, 0x0a, 0x10, 0x4c, 0x69, 0x73, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x22, 0x54, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x46, 0x69, 0x6c, 0x65,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3f, 0x0a, 0x04, 0x66, 0x69, 0x6c,
+	0x65, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68,
+	0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x46, 0x69, 0x6c, 0x65, 0x52, 0x04, 0x66, 0x69, 0x6c, 0x65, 0x22, 0x92, 0x01, 0x0a, 0x10, 0x57,
+	0x72, 0x69, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x16, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x44, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b,
+	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x63, 0x68,
+	0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74,
+	0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x30, 0x0a,
+	0x13, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x69, 0x74, 0x79, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x56,
+	0x61, 0x6c, 0x75, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x69, 0x6e, 0x74, 0x65,
+	0x67, 0x72, 0x69, 0x74, 0x79, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x22,
+	0x35, 0x0a, 0x11, 0x57, 0x72, 0x69, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d,
+	0x62, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b,
+	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x55, 0x0a, 0x0f, 0x52, 0x65, 0x61, 0x64, 0x46, 0x69,
+	0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69, 0x6c,
+	0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x65, 0x49,
+	0x44, 0x12, 0x2a, 0x0a, 0x10, 0x73, 0x74, 0x61, 0x72, 0x74, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x4e,
+	0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x10, 0x73, 0x74, 0x61,
+	0x72, 0x74, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x7a, 0x0a,
+	0x10, 0x52, 0x65, 0x61, 0x64, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x4e, 0x75, 0x6d,
+	0x62, 0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x30, 0x0a, 0x13, 0x69, 0x6e, 0x74, 0x65, 0x67,
+	0x72, 0x69, 0x74, 0x79, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x69, 0x74, 0x79, 0x43,
+	0x68, 0x65, 0x63, 0x6b, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x32, 0xbc, 0x08, 0x0a, 0x0b, 0x46, 0x69,
+	0x6c, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x81, 0x01, 0x0a, 0x0a, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x38, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73,
+	0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31,
+	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x39, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61,
+	0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x81, 0x01,
+	0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x38, 0x2e, 0x66,
+	0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x39, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f,
+	0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x8d, 0x01, 0x0a, 0x0e, 0x57, 0x72, 0x69, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69,
+	0x70, 0x61, 0x72, 0x74, 0x12, 0x3c, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e,
 	0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69,
-	0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6f, 0x6d,
-	0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70,
-	0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x9f, 0x01, 0x0a,
-	0x14, 0x41, 0x62, 0x6f, 0x72, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55,
-	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x42, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74,
+	0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x72, 0x69,
+	0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x3d, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61,
+	0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x72, 0x69, 0x74, 0x65,
+	0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x96, 0x01, 0x0a, 0x11, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75,
+	0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x12, 0x3f, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68,
+	0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x40, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73,
+	0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31,
+	0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61,
+	0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x7a, 0x0a, 0x07, 0x47, 0x65,
+	0x74, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x35, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74,
 	0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66,
-	0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x62,
-	0x6f, 0x72, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74, 0x55, 0x70, 0x6c, 0x6f,
-	0x61, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x43, 0x2e, 0x66, 0x6c, 0x6f, 0x77,
-	0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76,
-	0x31, 0x2e, 0x41, 0x62, 0x6f, 0x72, 0x74, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x70, 0x61, 0x72, 0x74,
-	0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x7a,
-	0x0a, 0x07, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x35, 0x2e, 0x66, 0x6c, 0x6f, 0x77,
-	0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76,
-	0x31, 0x2e, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x36, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69,
-	0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x30, 0x01, 0x42, 0x35, 0x5a, 0x33, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f,
-	0x74, 0x2d, 0x69, 0x6f, 0x2f, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2d, 0x61,
-	0x70, 0x69, 0x2f, 0x76, 0x31, 0x3b, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65,
+	0x74, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x36, 0x2e, 0x66,
+	0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x30, 0x01, 0x12, 0x7e, 0x0a, 0x09, 0x4c, 0x69, 0x73, 0x74, 0x46, 0x69,
+	0x6c, 0x65, 0x73, 0x12, 0x37, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e,
+	0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c,
+	0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e, 0x66,
+	0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x80, 0x01, 0x0a, 0x09, 0x57, 0x72, 0x69, 0x74, 0x65,
+	0x46, 0x69, 0x6c, 0x65, 0x12, 0x37, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e,
+	0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69,
+	0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x72, 0x69,
+	0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e,
+	0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74,
+	0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x72, 0x69, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x28, 0x01, 0x12, 0x7d, 0x0a, 0x08, 0x52, 0x65, 0x61,
+	0x64, 0x46, 0x69, 0x6c, 0x65, 0x12, 0x36, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74,
+	0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66,
+	0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65,
+	0x61, 0x64, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e,
+	0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74,
+	0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x46, 0x69, 0x6c, 0x65, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x30, 0x01, 0x42, 0x35, 0x5a, 0x33, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2d,
+	0x69, 0x6f, 0x2f, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2d, 0x61, 0x70, 0x69,
+	0x2f, 0x76, 0x31, 0x3b, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -683,35 +1089,50 @@ func file_navigator_api_fileservice_v1_service_proto_rawDescGZIP() []byte {
 	return file_navigator_api_fileservice_v1_service_proto_rawDescData
 }
 
-var file_navigator_api_fileservice_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_navigator_api_fileservice_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_navigator_api_fileservice_v1_service_proto_goTypes = []interface{}{
-	(*CreateMultipartUploadRequest)(nil),    // 0: flowshot.navigator.api.fileservice.v1.CreateMultipartUploadRequest
-	(*CreateMultipartUploadResponse)(nil),   // 1: flowshot.navigator.api.fileservice.v1.CreateMultipartUploadResponse
-	(*UploadPartRequest)(nil),               // 2: flowshot.navigator.api.fileservice.v1.UploadPartRequest
-	(*UploadPartResponse)(nil),              // 3: flowshot.navigator.api.fileservice.v1.UploadPartResponse
-	(*CompleteMultipartUploadRequest)(nil),  // 4: flowshot.navigator.api.fileservice.v1.CompleteMultipartUploadRequest
-	(*CompleteMultipartUploadResponse)(nil), // 5: flowshot.navigator.api.fileservice.v1.CompleteMultipartUploadResponse
-	(*AbortMultipartUploadRequest)(nil),     // 6: flowshot.navigator.api.fileservice.v1.AbortMultipartUploadRequest
-	(*AbortMultipartUploadResponse)(nil),    // 7: flowshot.navigator.api.fileservice.v1.AbortMultipartUploadResponse
-	(*GetFileRequest)(nil),                  // 8: flowshot.navigator.api.fileservice.v1.GetFileRequest
-	(*GetFileResponse)(nil),                 // 9: flowshot.navigator.api.fileservice.v1.GetFileResponse
+	(*File)(nil),                      // 0: flowshot.navigator.api.fileservice.v1.File
+	(*CreateFileRequest)(nil),         // 1: flowshot.navigator.api.fileservice.v1.CreateFileRequest
+	(*CreateFileResponse)(nil),        // 2: flowshot.navigator.api.fileservice.v1.CreateFileResponse
+	(*WriteMultipartRequest)(nil),     // 3: flowshot.navigator.api.fileservice.v1.WriteMultipartRequest
+	(*WriteMultipartResponse)(nil),    // 4: flowshot.navigator.api.fileservice.v1.WriteMultipartResponse
+	(*CompleteMultipartRequest)(nil),  // 5: flowshot.navigator.api.fileservice.v1.CompleteMultipartRequest
+	(*CompleteMultipartResponse)(nil), // 6: flowshot.navigator.api.fileservice.v1.CompleteMultipartResponse
+	(*DeleteFileRequest)(nil),         // 7: flowshot.navigator.api.fileservice.v1.DeleteFileRequest
+	(*DeleteFileResponse)(nil),        // 8: flowshot.navigator.api.fileservice.v1.DeleteFileResponse
+	(*GetFileRequest)(nil),            // 9: flowshot.navigator.api.fileservice.v1.GetFileRequest
+	(*GetFileResponse)(nil),           // 10: flowshot.navigator.api.fileservice.v1.GetFileResponse
+	(*ListFilesRequest)(nil),          // 11: flowshot.navigator.api.fileservice.v1.ListFilesRequest
+	(*ListFilesResponse)(nil),         // 12: flowshot.navigator.api.fileservice.v1.ListFilesResponse
+	(*WriteFileRequest)(nil),          // 13: flowshot.navigator.api.fileservice.v1.WriteFileRequest
+	(*WriteFileResponse)(nil),         // 14: flowshot.navigator.api.fileservice.v1.WriteFileResponse
+	(*ReadFileRequest)(nil),           // 15: flowshot.navigator.api.fileservice.v1.ReadFileRequest
+	(*ReadFileResponse)(nil),          // 16: flowshot.navigator.api.fileservice.v1.ReadFileResponse
 }
 var file_navigator_api_fileservice_v1_service_proto_depIdxs = []int32{
-	0, // 0: flowshot.navigator.api.fileservice.v1.FileService.CreateMultipartUpload:input_type -> flowshot.navigator.api.fileservice.v1.CreateMultipartUploadRequest
-	2, // 1: flowshot.navigator.api.fileservice.v1.FileService.UploadPart:input_type -> flowshot.navigator.api.fileservice.v1.UploadPartRequest
-	4, // 2: flowshot.navigator.api.fileservice.v1.FileService.CompleteMultipartUpload:input_type -> flowshot.navigator.api.fileservice.v1.CompleteMultipartUploadRequest
-	6, // 3: flowshot.navigator.api.fileservice.v1.FileService.AbortMultipartUpload:input_type -> flowshot.navigator.api.fileservice.v1.AbortMultipartUploadRequest
-	8, // 4: flowshot.navigator.api.fileservice.v1.FileService.GetFile:input_type -> flowshot.navigator.api.fileservice.v1.GetFileRequest
-	1, // 5: flowshot.navigator.api.fileservice.v1.FileService.CreateMultipartUpload:output_type -> flowshot.navigator.api.fileservice.v1.CreateMultipartUploadResponse
-	3, // 6: flowshot.navigator.api.fileservice.v1.FileService.UploadPart:output_type -> flowshot.navigator.api.fileservice.v1.UploadPartResponse
-	5, // 7: flowshot.navigator.api.fileservice.v1.FileService.CompleteMultipartUpload:output_type -> flowshot.navigator.api.fileservice.v1.CompleteMultipartUploadResponse
-	7, // 8: flowshot.navigator.api.fileservice.v1.FileService.AbortMultipartUpload:output_type -> flowshot.navigator.api.fileservice.v1.AbortMultipartUploadResponse
-	9, // 9: flowshot.navigator.api.fileservice.v1.FileService.GetFile:output_type -> flowshot.navigator.api.fileservice.v1.GetFileResponse
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: flowshot.navigator.api.fileservice.v1.GetFileResponse.file:type_name -> flowshot.navigator.api.fileservice.v1.File
+	0,  // 1: flowshot.navigator.api.fileservice.v1.ListFilesResponse.file:type_name -> flowshot.navigator.api.fileservice.v1.File
+	1,  // 2: flowshot.navigator.api.fileservice.v1.FileService.CreateFile:input_type -> flowshot.navigator.api.fileservice.v1.CreateFileRequest
+	7,  // 3: flowshot.navigator.api.fileservice.v1.FileService.DeleteFile:input_type -> flowshot.navigator.api.fileservice.v1.DeleteFileRequest
+	3,  // 4: flowshot.navigator.api.fileservice.v1.FileService.WriteMultipart:input_type -> flowshot.navigator.api.fileservice.v1.WriteMultipartRequest
+	5,  // 5: flowshot.navigator.api.fileservice.v1.FileService.CompleteMultipart:input_type -> flowshot.navigator.api.fileservice.v1.CompleteMultipartRequest
+	9,  // 6: flowshot.navigator.api.fileservice.v1.FileService.GetFile:input_type -> flowshot.navigator.api.fileservice.v1.GetFileRequest
+	11, // 7: flowshot.navigator.api.fileservice.v1.FileService.ListFiles:input_type -> flowshot.navigator.api.fileservice.v1.ListFilesRequest
+	13, // 8: flowshot.navigator.api.fileservice.v1.FileService.WriteFile:input_type -> flowshot.navigator.api.fileservice.v1.WriteFileRequest
+	15, // 9: flowshot.navigator.api.fileservice.v1.FileService.ReadFile:input_type -> flowshot.navigator.api.fileservice.v1.ReadFileRequest
+	2,  // 10: flowshot.navigator.api.fileservice.v1.FileService.CreateFile:output_type -> flowshot.navigator.api.fileservice.v1.CreateFileResponse
+	8,  // 11: flowshot.navigator.api.fileservice.v1.FileService.DeleteFile:output_type -> flowshot.navigator.api.fileservice.v1.DeleteFileResponse
+	4,  // 12: flowshot.navigator.api.fileservice.v1.FileService.WriteMultipart:output_type -> flowshot.navigator.api.fileservice.v1.WriteMultipartResponse
+	6,  // 13: flowshot.navigator.api.fileservice.v1.FileService.CompleteMultipart:output_type -> flowshot.navigator.api.fileservice.v1.CompleteMultipartResponse
+	10, // 14: flowshot.navigator.api.fileservice.v1.FileService.GetFile:output_type -> flowshot.navigator.api.fileservice.v1.GetFileResponse
+	12, // 15: flowshot.navigator.api.fileservice.v1.FileService.ListFiles:output_type -> flowshot.navigator.api.fileservice.v1.ListFilesResponse
+	14, // 16: flowshot.navigator.api.fileservice.v1.FileService.WriteFile:output_type -> flowshot.navigator.api.fileservice.v1.WriteFileResponse
+	16, // 17: flowshot.navigator.api.fileservice.v1.FileService.ReadFile:output_type -> flowshot.navigator.api.fileservice.v1.ReadFileResponse
+	10, // [10:18] is the sub-list for method output_type
+	2,  // [2:10] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_navigator_api_fileservice_v1_service_proto_init() }
@@ -721,7 +1142,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateMultipartUploadRequest); i {
+			switch v := v.(*File); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -733,7 +1154,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateMultipartUploadResponse); i {
+			switch v := v.(*CreateFileRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -745,7 +1166,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UploadPartRequest); i {
+			switch v := v.(*CreateFileResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -757,7 +1178,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UploadPartResponse); i {
+			switch v := v.(*WriteMultipartRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -769,7 +1190,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CompleteMultipartUploadRequest); i {
+			switch v := v.(*WriteMultipartResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -781,7 +1202,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CompleteMultipartUploadResponse); i {
+			switch v := v.(*CompleteMultipartRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -793,7 +1214,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AbortMultipartUploadRequest); i {
+			switch v := v.(*CompleteMultipartResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -805,7 +1226,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AbortMultipartUploadResponse); i {
+			switch v := v.(*DeleteFileRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -817,7 +1238,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetFileRequest); i {
+			switch v := v.(*DeleteFileResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -829,7 +1250,91 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_fileservice_v1_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetFileRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetFileResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListFilesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListFilesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WriteFileRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WriteFileResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ReadFileRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_navigator_api_fileservice_v1_service_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ReadFileResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -847,7 +1352,7 @@ func file_navigator_api_fileservice_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_navigator_api_fileservice_v1_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -873,11 +1378,14 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type FileServiceClient interface {
-	CreateMultipartUpload(ctx context.Context, in *CreateMultipartUploadRequest, opts ...grpc.CallOption) (*CreateMultipartUploadResponse, error)
-	UploadPart(ctx context.Context, in *UploadPartRequest, opts ...grpc.CallOption) (*UploadPartResponse, error)
-	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadRequest, opts ...grpc.CallOption) (*CompleteMultipartUploadResponse, error)
-	AbortMultipartUpload(ctx context.Context, in *AbortMultipartUploadRequest, opts ...grpc.CallOption) (*AbortMultipartUploadResponse, error)
+	CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*CreateFileResponse, error)
+	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error)
+	WriteMultipart(ctx context.Context, in *WriteMultipartRequest, opts ...grpc.CallOption) (*WriteMultipartResponse, error)
+	CompleteMultipart(ctx context.Context, in *CompleteMultipartRequest, opts ...grpc.CallOption) (*CompleteMultipartResponse, error)
 	GetFile(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (FileService_GetFileClient, error)
+	ListFiles(ctx context.Context, in *ListFilesRequest, opts ...grpc.CallOption) (*ListFilesResponse, error)
+	WriteFile(ctx context.Context, opts ...grpc.CallOption) (FileService_WriteFileClient, error)
+	ReadFile(ctx context.Context, in *ReadFileRequest, opts ...grpc.CallOption) (FileService_ReadFileClient, error)
 }
 
 type fileServiceClient struct {
@@ -888,36 +1396,36 @@ func NewFileServiceClient(cc grpc.ClientConnInterface) FileServiceClient {
 	return &fileServiceClient{cc}
 }
 
-func (c *fileServiceClient) CreateMultipartUpload(ctx context.Context, in *CreateMultipartUploadRequest, opts ...grpc.CallOption) (*CreateMultipartUploadResponse, error) {
-	out := new(CreateMultipartUploadResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/CreateMultipartUpload", in, out, opts...)
+func (c *fileServiceClient) CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*CreateFileResponse, error) {
+	out := new(CreateFileResponse)
+	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/CreateFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) UploadPart(ctx context.Context, in *UploadPartRequest, opts ...grpc.CallOption) (*UploadPartResponse, error) {
-	out := new(UploadPartResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/UploadPart", in, out, opts...)
+func (c *fileServiceClient) DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error) {
+	out := new(DeleteFileResponse)
+	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/DeleteFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadRequest, opts ...grpc.CallOption) (*CompleteMultipartUploadResponse, error) {
-	out := new(CompleteMultipartUploadResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/CompleteMultipartUpload", in, out, opts...)
+func (c *fileServiceClient) WriteMultipart(ctx context.Context, in *WriteMultipartRequest, opts ...grpc.CallOption) (*WriteMultipartResponse, error) {
+	out := new(WriteMultipartResponse)
+	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/WriteMultipart", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) AbortMultipartUpload(ctx context.Context, in *AbortMultipartUploadRequest, opts ...grpc.CallOption) (*AbortMultipartUploadResponse, error) {
-	out := new(AbortMultipartUploadResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/AbortMultipartUpload", in, out, opts...)
+func (c *fileServiceClient) CompleteMultipart(ctx context.Context, in *CompleteMultipartRequest, opts ...grpc.CallOption) (*CompleteMultipartResponse, error) {
+	out := new(CompleteMultipartResponse)
+	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/CompleteMultipart", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -956,107 +1464,194 @@ func (x *fileServiceGetFileClient) Recv() (*GetFileResponse, error) {
 	return m, nil
 }
 
+func (c *fileServiceClient) ListFiles(ctx context.Context, in *ListFilesRequest, opts ...grpc.CallOption) (*ListFilesResponse, error) {
+	out := new(ListFilesResponse)
+	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.fileservice.v1.FileService/ListFiles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fileServiceClient) WriteFile(ctx context.Context, opts ...grpc.CallOption) (FileService_WriteFileClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_FileService_serviceDesc.Streams[1], "/flowshot.navigator.api.fileservice.v1.FileService/WriteFile", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &fileServiceWriteFileClient{stream}
+	return x, nil
+}
+
+type FileService_WriteFileClient interface {
+	Send(*WriteFileRequest) error
+	CloseAndRecv() (*WriteFileResponse, error)
+	grpc.ClientStream
+}
+
+type fileServiceWriteFileClient struct {
+	grpc.ClientStream
+}
+
+func (x *fileServiceWriteFileClient) Send(m *WriteFileRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *fileServiceWriteFileClient) CloseAndRecv() (*WriteFileResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(WriteFileResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *fileServiceClient) ReadFile(ctx context.Context, in *ReadFileRequest, opts ...grpc.CallOption) (FileService_ReadFileClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_FileService_serviceDesc.Streams[2], "/flowshot.navigator.api.fileservice.v1.FileService/ReadFile", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &fileServiceReadFileClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type FileService_ReadFileClient interface {
+	Recv() (*ReadFileResponse, error)
+	grpc.ClientStream
+}
+
+type fileServiceReadFileClient struct {
+	grpc.ClientStream
+}
+
+func (x *fileServiceReadFileClient) Recv() (*ReadFileResponse, error) {
+	m := new(ReadFileResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // FileServiceServer is the server API for FileService service.
 type FileServiceServer interface {
-	CreateMultipartUpload(context.Context, *CreateMultipartUploadRequest) (*CreateMultipartUploadResponse, error)
-	UploadPart(context.Context, *UploadPartRequest) (*UploadPartResponse, error)
-	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadRequest) (*CompleteMultipartUploadResponse, error)
-	AbortMultipartUpload(context.Context, *AbortMultipartUploadRequest) (*AbortMultipartUploadResponse, error)
+	CreateFile(context.Context, *CreateFileRequest) (*CreateFileResponse, error)
+	DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error)
+	WriteMultipart(context.Context, *WriteMultipartRequest) (*WriteMultipartResponse, error)
+	CompleteMultipart(context.Context, *CompleteMultipartRequest) (*CompleteMultipartResponse, error)
 	GetFile(*GetFileRequest, FileService_GetFileServer) error
+	ListFiles(context.Context, *ListFilesRequest) (*ListFilesResponse, error)
+	WriteFile(FileService_WriteFileServer) error
+	ReadFile(*ReadFileRequest, FileService_ReadFileServer) error
 }
 
 // UnimplementedFileServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedFileServiceServer struct {
 }
 
-func (*UnimplementedFileServiceServer) CreateMultipartUpload(context.Context, *CreateMultipartUploadRequest) (*CreateMultipartUploadResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateMultipartUpload not implemented")
+func (*UnimplementedFileServiceServer) CreateFile(context.Context, *CreateFileRequest) (*CreateFileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFile not implemented")
 }
-func (*UnimplementedFileServiceServer) UploadPart(context.Context, *UploadPartRequest) (*UploadPartResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UploadPart not implemented")
+func (*UnimplementedFileServiceServer) DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFile not implemented")
 }
-func (*UnimplementedFileServiceServer) CompleteMultipartUpload(context.Context, *CompleteMultipartUploadRequest) (*CompleteMultipartUploadResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CompleteMultipartUpload not implemented")
+func (*UnimplementedFileServiceServer) WriteMultipart(context.Context, *WriteMultipartRequest) (*WriteMultipartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WriteMultipart not implemented")
 }
-func (*UnimplementedFileServiceServer) AbortMultipartUpload(context.Context, *AbortMultipartUploadRequest) (*AbortMultipartUploadResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AbortMultipartUpload not implemented")
+func (*UnimplementedFileServiceServer) CompleteMultipart(context.Context, *CompleteMultipartRequest) (*CompleteMultipartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompleteMultipart not implemented")
 }
 func (*UnimplementedFileServiceServer) GetFile(*GetFileRequest, FileService_GetFileServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetFile not implemented")
+}
+func (*UnimplementedFileServiceServer) ListFiles(context.Context, *ListFilesRequest) (*ListFilesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFiles not implemented")
+}
+func (*UnimplementedFileServiceServer) WriteFile(FileService_WriteFileServer) error {
+	return status.Errorf(codes.Unimplemented, "method WriteFile not implemented")
+}
+func (*UnimplementedFileServiceServer) ReadFile(*ReadFileRequest, FileService_ReadFileServer) error {
+	return status.Errorf(codes.Unimplemented, "method ReadFile not implemented")
 }
 
 func RegisterFileServiceServer(s *grpc.Server, srv FileServiceServer) {
 	s.RegisterService(&_FileService_serviceDesc, srv)
 }
 
-func _FileService_CreateMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateMultipartUploadRequest)
+func _FileService_CreateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).CreateMultipartUpload(ctx, in)
+		return srv.(FileServiceServer).CreateFile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/CreateMultipartUpload",
+		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/CreateFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).CreateMultipartUpload(ctx, req.(*CreateMultipartUploadRequest))
+		return srv.(FileServiceServer).CreateFile(ctx, req.(*CreateFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_UploadPart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadPartRequest)
+func _FileService_DeleteFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).UploadPart(ctx, in)
+		return srv.(FileServiceServer).DeleteFile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/UploadPart",
+		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/DeleteFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).UploadPart(ctx, req.(*UploadPartRequest))
+		return srv.(FileServiceServer).DeleteFile(ctx, req.(*DeleteFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_CompleteMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CompleteMultipartUploadRequest)
+func _FileService_WriteMultipart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WriteMultipartRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).CompleteMultipartUpload(ctx, in)
+		return srv.(FileServiceServer).WriteMultipart(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/CompleteMultipartUpload",
+		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/WriteMultipart",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).CompleteMultipartUpload(ctx, req.(*CompleteMultipartUploadRequest))
+		return srv.(FileServiceServer).WriteMultipart(ctx, req.(*WriteMultipartRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_AbortMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AbortMultipartUploadRequest)
+func _FileService_CompleteMultipart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteMultipartRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).AbortMultipartUpload(ctx, in)
+		return srv.(FileServiceServer).CompleteMultipart(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/AbortMultipartUpload",
+		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/CompleteMultipart",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).AbortMultipartUpload(ctx, req.(*AbortMultipartUploadRequest))
+		return srv.(FileServiceServer).CompleteMultipart(ctx, req.(*CompleteMultipartRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1082,31 +1677,110 @@ func (x *fileServiceGetFileServer) Send(m *GetFileResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _FileService_ListFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFilesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).ListFiles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/flowshot.navigator.api.fileservice.v1.FileService/ListFiles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).ListFiles(ctx, req.(*ListFilesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FileService_WriteFile_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(FileServiceServer).WriteFile(&fileServiceWriteFileServer{stream})
+}
+
+type FileService_WriteFileServer interface {
+	SendAndClose(*WriteFileResponse) error
+	Recv() (*WriteFileRequest, error)
+	grpc.ServerStream
+}
+
+type fileServiceWriteFileServer struct {
+	grpc.ServerStream
+}
+
+func (x *fileServiceWriteFileServer) SendAndClose(m *WriteFileResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *fileServiceWriteFileServer) Recv() (*WriteFileRequest, error) {
+	m := new(WriteFileRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _FileService_ReadFile_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ReadFileRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(FileServiceServer).ReadFile(m, &fileServiceReadFileServer{stream})
+}
+
+type FileService_ReadFileServer interface {
+	Send(*ReadFileResponse) error
+	grpc.ServerStream
+}
+
+type fileServiceReadFileServer struct {
+	grpc.ServerStream
+}
+
+func (x *fileServiceReadFileServer) Send(m *ReadFileResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 var _FileService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "flowshot.navigator.api.fileservice.v1.FileService",
 	HandlerType: (*FileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateMultipartUpload",
-			Handler:    _FileService_CreateMultipartUpload_Handler,
+			MethodName: "CreateFile",
+			Handler:    _FileService_CreateFile_Handler,
 		},
 		{
-			MethodName: "UploadPart",
-			Handler:    _FileService_UploadPart_Handler,
+			MethodName: "DeleteFile",
+			Handler:    _FileService_DeleteFile_Handler,
 		},
 		{
-			MethodName: "CompleteMultipartUpload",
-			Handler:    _FileService_CompleteMultipartUpload_Handler,
+			MethodName: "WriteMultipart",
+			Handler:    _FileService_WriteMultipart_Handler,
 		},
 		{
-			MethodName: "AbortMultipartUpload",
-			Handler:    _FileService_AbortMultipartUpload_Handler,
+			MethodName: "CompleteMultipart",
+			Handler:    _FileService_CompleteMultipart_Handler,
+		},
+		{
+			MethodName: "ListFiles",
+			Handler:    _FileService_ListFiles_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "GetFile",
 			Handler:       _FileService_GetFile_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WriteFile",
+			Handler:       _FileService_WriteFile_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "ReadFile",
+			Handler:       _FileService_ReadFile_Handler,
 			ServerStreams: true,
 		},
 	},
