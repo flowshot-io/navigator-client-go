@@ -8,7 +8,7 @@ package queryservice
 
 import (
 	context "context"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	_ "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,24 +25,71 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Asset struct {
+type SearchType int32
+
+const (
+	SearchType_SEARCH_TYPE_UNKNOWN SearchType = 0
+	SearchType_SEARCH_TYPE_ID      SearchType = 1
+	SearchType_SEARCH_TYPE_TEXT    SearchType = 2
+	SearchType_SEARCH_TYPE_IMAGE   SearchType = 3
+)
+
+// Enum value maps for SearchType.
+var (
+	SearchType_name = map[int32]string{
+		0: "SEARCH_TYPE_UNKNOWN",
+		1: "SEARCH_TYPE_ID",
+		2: "SEARCH_TYPE_TEXT",
+		3: "SEARCH_TYPE_IMAGE",
+	}
+	SearchType_value = map[string]int32{
+		"SEARCH_TYPE_UNKNOWN": 0,
+		"SEARCH_TYPE_ID":      1,
+		"SEARCH_TYPE_TEXT":    2,
+		"SEARCH_TYPE_IMAGE":   3,
+	}
+)
+
+func (x SearchType) Enum() *SearchType {
+	p := new(SearchType)
+	*p = x
+	return p
+}
+
+func (x SearchType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SearchType) Descriptor() protoreflect.EnumDescriptor {
+	return file_navigator_api_queryservice_v1_service_proto_enumTypes[0].Descriptor()
+}
+
+func (SearchType) Type() protoreflect.EnumType {
+	return &file_navigator_api_queryservice_v1_service_proto_enumTypes[0]
+}
+
+func (x SearchType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SearchType.Descriptor instead.
+func (SearchType) EnumDescriptor() ([]byte, []int) {
+	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{0}
+}
+
+type SearchFilesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID           string               `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	Name         string               `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Key          string               `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
-	Type         string               `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
-	Metadata     map[string]string    `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Alternatives map[string]string    `protobuf:"bytes,6,rep,name=alternatives,proto3" json:"alternatives,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	IsArchived   bool                 `protobuf:"varint,7,opt,name=isArchived,proto3" json:"isArchived,omitempty"`
-	CreatedAt    *timestamp.Timestamp `protobuf:"bytes,8,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt    *timestamp.Timestamp `protobuf:"bytes,9,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	Limit  int32      `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset int32      `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	Type   SearchType `protobuf:"varint,3,opt,name=type,proto3,enum=flowshot.navigator.api.queryservice.v1.SearchType" json:"type,omitempty"`
+	Input  string     `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
 }
 
-func (x *Asset) Reset() {
-	*x = Asset{}
+func (x *SearchFilesRequest) Reset() {
+	*x = SearchFilesRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -50,13 +97,13 @@ func (x *Asset) Reset() {
 	}
 }
 
-func (x *Asset) String() string {
+func (x *SearchFilesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Asset) ProtoMessage() {}
+func (*SearchFilesRequest) ProtoMessage() {}
 
-func (x *Asset) ProtoReflect() protoreflect.Message {
+func (x *SearchFilesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -68,141 +115,35 @@ func (x *Asset) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Asset.ProtoReflect.Descriptor instead.
-func (*Asset) Descriptor() ([]byte, []int) {
+// Deprecated: Use SearchFilesRequest.ProtoReflect.Descriptor instead.
+func (*SearchFilesRequest) Descriptor() ([]byte, []int) {
 	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Asset) GetID() string {
-	if x != nil {
-		return x.ID
-	}
-	return ""
-}
-
-func (x *Asset) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Asset) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
-func (x *Asset) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
-
-func (x *Asset) GetMetadata() map[string]string {
-	if x != nil {
-		return x.Metadata
-	}
-	return nil
-}
-
-func (x *Asset) GetAlternatives() map[string]string {
-	if x != nil {
-		return x.Alternatives
-	}
-	return nil
-}
-
-func (x *Asset) GetIsArchived() bool {
-	if x != nil {
-		return x.IsArchived
-	}
-	return false
-}
-
-func (x *Asset) GetCreatedAt() *timestamp.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *Asset) GetUpdatedAt() *timestamp.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-type SearchRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Limit  int32  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
-	Offset int32  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
-	Text   string `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty"`
-	Image  string `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
-}
-
-func (x *SearchRequest) Reset() {
-	*x = SearchRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *SearchRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SearchRequest) ProtoMessage() {}
-
-func (x *SearchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SearchRequest.ProtoReflect.Descriptor instead.
-func (*SearchRequest) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *SearchRequest) GetLimit() int32 {
+func (x *SearchFilesRequest) GetLimit() int32 {
 	if x != nil {
 		return x.Limit
 	}
 	return 0
 }
 
-func (x *SearchRequest) GetOffset() int32 {
+func (x *SearchFilesRequest) GetOffset() int32 {
 	if x != nil {
 		return x.Offset
 	}
 	return 0
 }
 
-func (x *SearchRequest) GetText() string {
+func (x *SearchFilesRequest) GetType() SearchType {
 	if x != nil {
-		return x.Text
+		return x.Type
 	}
-	return ""
+	return SearchType_SEARCH_TYPE_UNKNOWN
 }
 
-func (x *SearchRequest) GetImage() string {
+func (x *SearchFilesRequest) GetInput() string {
 	if x != nil {
-		return x.Image
+		return x.Input
 	}
 	return ""
 }
@@ -212,17 +153,20 @@ type SearchResult struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AssetID   string  `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
-	AssetType string  `protobuf:"bytes,2,opt,name=assetType,proto3" json:"assetType,omitempty"`
-	AssetName string  `protobuf:"bytes,3,opt,name=assetName,proto3" json:"assetName,omitempty"`
-	Certainty float64 `protobuf:"fixed64,8,opt,name=certainty,proto3" json:"certainty,omitempty"`
-	Distance  float64 `protobuf:"fixed64,9,opt,name=distance,proto3" json:"distance,omitempty"`
+	Id          string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Description string  `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Key         string  `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
+	Mime        string  `protobuf:"bytes,4,opt,name=mime,proto3" json:"mime,omitempty"`
+	Extension   string  `protobuf:"bytes,5,opt,name=extension,proto3" json:"extension,omitempty"`
+	BelongsTo   string  `protobuf:"bytes,6,opt,name=belongsTo,proto3" json:"belongsTo,omitempty"`
+	Certainty   float64 `protobuf:"fixed64,7,opt,name=certainty,proto3" json:"certainty,omitempty"`
+	Distance    float64 `protobuf:"fixed64,8,opt,name=distance,proto3" json:"distance,omitempty"`
 }
 
 func (x *SearchResult) Reset() {
 	*x = SearchResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[2]
+		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -235,7 +179,7 @@ func (x *SearchResult) String() string {
 func (*SearchResult) ProtoMessage() {}
 
 func (x *SearchResult) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[2]
+	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -248,26 +192,47 @@ func (x *SearchResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchResult.ProtoReflect.Descriptor instead.
 func (*SearchResult) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{2}
+	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *SearchResult) GetAssetID() string {
+func (x *SearchResult) GetId() string {
 	if x != nil {
-		return x.AssetID
+		return x.Id
 	}
 	return ""
 }
 
-func (x *SearchResult) GetAssetType() string {
+func (x *SearchResult) GetDescription() string {
 	if x != nil {
-		return x.AssetType
+		return x.Description
 	}
 	return ""
 }
 
-func (x *SearchResult) GetAssetName() string {
+func (x *SearchResult) GetKey() string {
 	if x != nil {
-		return x.AssetName
+		return x.Key
+	}
+	return ""
+}
+
+func (x *SearchResult) GetMime() string {
+	if x != nil {
+		return x.Mime
+	}
+	return ""
+}
+
+func (x *SearchResult) GetExtension() string {
+	if x != nil {
+		return x.Extension
+	}
+	return ""
+}
+
+func (x *SearchResult) GetBelongsTo() string {
+	if x != nil {
+		return x.BelongsTo
 	}
 	return ""
 }
@@ -286,7 +251,7 @@ func (x *SearchResult) GetDistance() float64 {
 	return 0
 }
 
-type SearchResponse struct {
+type SearchFilesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -294,23 +259,23 @@ type SearchResponse struct {
 	Results []*SearchResult `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
 }
 
-func (x *SearchResponse) Reset() {
-	*x = SearchResponse{}
+func (x *SearchFilesResponse) Reset() {
+	*x = SearchFilesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[3]
+		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *SearchResponse) String() string {
+func (x *SearchFilesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SearchResponse) ProtoMessage() {}
+func (*SearchFilesResponse) ProtoMessage() {}
 
-func (x *SearchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[3]
+func (x *SearchFilesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -321,391 +286,14 @@ func (x *SearchResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchResponse.ProtoReflect.Descriptor instead.
-func (*SearchResponse) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use SearchFilesResponse.ProtoReflect.Descriptor instead.
+func (*SearchFilesResponse) Descriptor() ([]byte, []int) {
+	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *SearchResponse) GetResults() []*SearchResult {
+func (x *SearchFilesResponse) GetResults() []*SearchResult {
 	if x != nil {
 		return x.Results
-	}
-	return nil
-}
-
-type RecommendAssetRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	AssetID string `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
-	Limit   int32  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
-	Offset  int32  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
-}
-
-func (x *RecommendAssetRequest) Reset() {
-	*x = RecommendAssetRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RecommendAssetRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RecommendAssetRequest) ProtoMessage() {}
-
-func (x *RecommendAssetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RecommendAssetRequest.ProtoReflect.Descriptor instead.
-func (*RecommendAssetRequest) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *RecommendAssetRequest) GetAssetID() string {
-	if x != nil {
-		return x.AssetID
-	}
-	return ""
-}
-
-func (x *RecommendAssetRequest) GetLimit() int32 {
-	if x != nil {
-		return x.Limit
-	}
-	return 0
-}
-
-func (x *RecommendAssetRequest) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-type RecommendAssetResult struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	AssetID   string  `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
-	Certainty float64 `protobuf:"fixed64,8,opt,name=certainty,proto3" json:"certainty,omitempty"`
-	Distance  float64 `protobuf:"fixed64,9,opt,name=distance,proto3" json:"distance,omitempty"`
-}
-
-func (x *RecommendAssetResult) Reset() {
-	*x = RecommendAssetResult{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RecommendAssetResult) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RecommendAssetResult) ProtoMessage() {}
-
-func (x *RecommendAssetResult) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RecommendAssetResult.ProtoReflect.Descriptor instead.
-func (*RecommendAssetResult) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *RecommendAssetResult) GetAssetID() string {
-	if x != nil {
-		return x.AssetID
-	}
-	return ""
-}
-
-func (x *RecommendAssetResult) GetCertainty() float64 {
-	if x != nil {
-		return x.Certainty
-	}
-	return 0
-}
-
-func (x *RecommendAssetResult) GetDistance() float64 {
-	if x != nil {
-		return x.Distance
-	}
-	return 0
-}
-
-type RecommendAssetResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Results []*RecommendAssetResult `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
-}
-
-func (x *RecommendAssetResponse) Reset() {
-	*x = RecommendAssetResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RecommendAssetResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RecommendAssetResponse) ProtoMessage() {}
-
-func (x *RecommendAssetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RecommendAssetResponse.ProtoReflect.Descriptor instead.
-func (*RecommendAssetResponse) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *RecommendAssetResponse) GetResults() []*RecommendAssetResult {
-	if x != nil {
-		return x.Results
-	}
-	return nil
-}
-
-type GetAssetRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	AssetID string `protobuf:"bytes,1,opt,name=assetID,proto3" json:"assetID,omitempty"`
-}
-
-func (x *GetAssetRequest) Reset() {
-	*x = GetAssetRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetAssetRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetAssetRequest) ProtoMessage() {}
-
-func (x *GetAssetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetAssetRequest.ProtoReflect.Descriptor instead.
-func (*GetAssetRequest) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *GetAssetRequest) GetAssetID() string {
-	if x != nil {
-		return x.AssetID
-	}
-	return ""
-}
-
-type GetAssetResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Asset *Asset `protobuf:"bytes,1,opt,name=asset,proto3" json:"asset,omitempty"`
-}
-
-func (x *GetAssetResponse) Reset() {
-	*x = GetAssetResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetAssetResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetAssetResponse) ProtoMessage() {}
-
-func (x *GetAssetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetAssetResponse.ProtoReflect.Descriptor instead.
-func (*GetAssetResponse) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *GetAssetResponse) GetAsset() *Asset {
-	if x != nil {
-		return x.Asset
-	}
-	return nil
-}
-
-type ListAssetsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Limit     int32  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
-	Offset    int32  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
-	AssetType string `protobuf:"bytes,3,opt,name=assetType,proto3" json:"assetType,omitempty"`
-}
-
-func (x *ListAssetsRequest) Reset() {
-	*x = ListAssetsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ListAssetsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListAssetsRequest) ProtoMessage() {}
-
-func (x *ListAssetsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListAssetsRequest.ProtoReflect.Descriptor instead.
-func (*ListAssetsRequest) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *ListAssetsRequest) GetLimit() int32 {
-	if x != nil {
-		return x.Limit
-	}
-	return 0
-}
-
-func (x *ListAssetsRequest) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListAssetsRequest) GetAssetType() string {
-	if x != nil {
-		return x.AssetType
-	}
-	return ""
-}
-
-type ListAssetsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Assets []*Asset `protobuf:"bytes,1,rep,name=assets,proto3" json:"assets,omitempty"`
-}
-
-func (x *ListAssetsResponse) Reset() {
-	*x = ListAssetsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ListAssetsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListAssetsResponse) ProtoMessage() {}
-
-func (x *ListAssetsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_navigator_api_queryservice_v1_service_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListAssetsResponse.ProtoReflect.Descriptor instead.
-func (*ListAssetsResponse) Descriptor() ([]byte, []int) {
-	return file_navigator_api_queryservice_v1_service_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *ListAssetsResponse) GetAssets() []*Asset {
-	if x != nil {
-		return x.Assets
 	}
 	return nil
 }
@@ -720,142 +308,58 @@ var file_navigator_api_queryservice_v1_service_proto_rawDesc = []byte{
 	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x2e, 0x76, 0x31, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xa1, 0x04, 0x0a, 0x05, 0x41, 0x73, 0x73, 0x65, 0x74,
-	0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44,
-	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x04,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x57, 0x0a, 0x08, 0x6d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3b, 0x2e, 0x66,
-	0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f,
-	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x73, 0x73, 0x65, 0x74, 0x2e, 0x4d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64,
-	0x61, 0x74, 0x61, 0x12, 0x63, 0x0a, 0x0c, 0x61, 0x6c, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x74, 0x69,
-	0x76, 0x65, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3f, 0x2e, 0x66, 0x6c, 0x6f, 0x77,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xa0, 0x01, 0x0a, 0x12, 0x53, 0x65, 0x61, 0x72, 0x63,
+	0x68, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a,
+	0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6c, 0x69,
+	0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x46, 0x0a, 0x04, 0x74,
+	0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x32, 0x2e, 0x66, 0x6c, 0x6f, 0x77,
 	0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61,
 	0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x41, 0x73, 0x73, 0x65, 0x74, 0x2e, 0x41, 0x6c, 0x74, 0x65, 0x72, 0x6e, 0x61,
-	0x74, 0x69, 0x76, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0c, 0x61, 0x6c, 0x74, 0x65,
-	0x72, 0x6e, 0x61, 0x74, 0x69, 0x76, 0x65, 0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x73, 0x41, 0x72,
-	0x63, 0x68, 0x69, 0x76, 0x65, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x69, 0x73,
-	0x41, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x64, 0x12, 0x38, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
-	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69,
-	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
-	0x41, 0x74, 0x12, 0x38, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18,
-	0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
-	0x70, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x1a, 0x3b, 0x0a, 0x0d,
-	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a,
-	0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
-	0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x3f, 0x0a, 0x11, 0x41, 0x6c, 0x74,
-	0x65, 0x72, 0x6e, 0x61, 0x74, 0x69, 0x76, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
-	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
-	0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x67, 0x0a, 0x0d, 0x53, 0x65,
-	0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c,
-	0x69, 0x6d, 0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69,
-	0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x05, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78,
-	0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x14, 0x0a,
-	0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d,
-	0x61, 0x67, 0x65, 0x22, 0x9e, 0x01, 0x0a, 0x0c, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x52, 0x65,
-	0x73, 0x75, 0x6c, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x12, 0x1c,
-	0x0a, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1c, 0x0a, 0x09,
-	0x61, 0x73, 0x73, 0x65, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x63, 0x65,
-	0x72, 0x74, 0x61, 0x69, 0x6e, 0x74, 0x79, 0x18, 0x08, 0x20, 0x01, 0x28, 0x01, 0x52, 0x09, 0x63,
-	0x65, 0x72, 0x74, 0x61, 0x69, 0x6e, 0x74, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x64, 0x69, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x01, 0x52, 0x08, 0x64, 0x69, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x22, 0x60, 0x0a, 0x0e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4e, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x34, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68,
-	0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x07, 0x72,
-	0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0x5f, 0x0a, 0x15, 0x52, 0x65, 0x63, 0x6f, 0x6d, 0x6d,
-	0x65, 0x6e, 0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d,
-	0x69, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12,
-	0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52,
-	0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x22, 0x6a, 0x0a, 0x14, 0x52, 0x65, 0x63, 0x6f, 0x6d,
-	0x6d, 0x65, 0x6e, 0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12,
-	0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74, 0x49, 0x44, 0x12, 0x1c, 0x0a, 0x09, 0x63, 0x65, 0x72,
-	0x74, 0x61, 0x69, 0x6e, 0x74, 0x79, 0x18, 0x08, 0x20, 0x01, 0x28, 0x01, 0x52, 0x09, 0x63, 0x65,
-	0x72, 0x74, 0x61, 0x69, 0x6e, 0x74, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x64, 0x69, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x01, 0x52, 0x08, 0x64, 0x69, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x22, 0x70, 0x0a, 0x16, 0x52, 0x65, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x64,
-	0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x56, 0x0a,
-	0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3c,
-	0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61,
-	0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e,
-	0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x07, 0x72, 0x65,
-	0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0x2b, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x41, 0x73, 0x73, 0x65,
-	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x73, 0x73, 0x65,
-	0x74, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x73, 0x73, 0x65, 0x74,
-	0x49, 0x44, 0x22, 0x57, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x05, 0x61, 0x73, 0x73, 0x65, 0x74, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74,
-	0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71,
-	0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41,
-	0x73, 0x73, 0x65, 0x74, 0x52, 0x05, 0x61, 0x73, 0x73, 0x65, 0x74, 0x22, 0x5f, 0x0a, 0x11, 0x4c,
-	0x69, 0x73, 0x74, 0x41, 0x73, 0x73, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52,
-	0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x1c,
-	0x0a, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65, 0x22, 0x5b, 0x0a, 0x12,
-	0x4c, 0x69, 0x73, 0x74, 0x41, 0x73, 0x73, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x45, 0x0a, 0x06, 0x61, 0x73, 0x73, 0x65, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61,
-	0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72,
-	0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x73, 0x73, 0x65,
-	0x74, 0x52, 0x06, 0x61, 0x73, 0x73, 0x65, 0x74, 0x73, 0x32, 0x9e, 0x04, 0x0a, 0x0c, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x77, 0x0a, 0x06, 0x53, 0x65,
-	0x61, 0x72, 0x63, 0x68, 0x12, 0x35, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e,
+	0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74,
+	0x79, 0x70, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x22, 0xdc, 0x01, 0x0a, 0x0c, 0x53, 0x65,
+	0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x10, 0x0a, 0x03,
+	0x6b, 0x65, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x12,
+	0x0a, 0x04, 0x6d, 0x69, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6d, 0x69,
+	0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e,
+	0x12, 0x1c, 0x0a, 0x09, 0x62, 0x65, 0x6c, 0x6f, 0x6e, 0x67, 0x73, 0x54, 0x6f, 0x18, 0x06, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x09, 0x62, 0x65, 0x6c, 0x6f, 0x6e, 0x67, 0x73, 0x54, 0x6f, 0x12, 0x1c,
+	0x0a, 0x09, 0x63, 0x65, 0x72, 0x74, 0x61, 0x69, 0x6e, 0x74, 0x79, 0x18, 0x07, 0x20, 0x01, 0x28,
+	0x01, 0x52, 0x09, 0x63, 0x65, 0x72, 0x74, 0x61, 0x69, 0x6e, 0x74, 0x79, 0x12, 0x1a, 0x0a, 0x08,
+	0x64, 0x69, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x01, 0x52, 0x08,
+	0x64, 0x69, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x22, 0x65, 0x0a, 0x13, 0x53, 0x65, 0x61, 0x72,
+	0x63, 0x68, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x4e, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x34, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69,
+	0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68,
+	0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x2a,
+	0x66, 0x0a, 0x0a, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x54, 0x79, 0x70, 0x65, 0x12, 0x17, 0x0a,
+	0x13, 0x53, 0x45, 0x41, 0x52, 0x43, 0x48, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x55, 0x4e, 0x4b,
+	0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x12, 0x0a, 0x0e, 0x53, 0x45, 0x41, 0x52, 0x43, 0x48,
+	0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x49, 0x44, 0x10, 0x01, 0x12, 0x14, 0x0a, 0x10, 0x53, 0x45,
+	0x41, 0x52, 0x43, 0x48, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x54, 0x45, 0x58, 0x54, 0x10, 0x02,
+	0x12, 0x15, 0x0a, 0x11, 0x53, 0x45, 0x41, 0x52, 0x43, 0x48, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f,
+	0x49, 0x4d, 0x41, 0x47, 0x45, 0x10, 0x03, 0x32, 0x97, 0x01, 0x0a, 0x0c, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x86, 0x01, 0x0a, 0x0b, 0x53, 0x65, 0x61,
+	0x72, 0x63, 0x68, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x12, 0x3a, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73,
+	0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x3b, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e,
 	0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75,
 	0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65,
-	0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x36, 0x2e, 0x66, 0x6c,
-	0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x8f, 0x01, 0x0a, 0x0e, 0x52, 0x65, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e,
-	0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x12, 0x3d, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f,
-	0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x52, 0x65, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3e, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74,
-	0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71,
-	0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52,
-	0x65, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x64, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x7d, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x41, 0x73, 0x73, 0x65,
-	0x74, 0x12, 0x37, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76,
-	0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79,
-	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x73,
-	0x73, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e, 0x66, 0x6c, 0x6f,
-	0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x83, 0x01, 0x0a, 0x0a, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x73, 0x73,
-	0x65, 0x74, 0x73, 0x12, 0x39, 0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e,
-	0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65,
-	0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73,
-	0x74, 0x41, 0x73, 0x73, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3a,
-	0x2e, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2e, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61,
-	0x74, 0x6f, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x73, 0x73, 0x65,
-	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x36, 0x5a, 0x34, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f,
-	0x74, 0x2d, 0x69, 0x6f, 0x2f, 0x6e, 0x61, 0x76, 0x69, 0x67, 0x61, 0x74, 0x6f, 0x72, 0x2d, 0x61,
-	0x70, 0x69, 0x2f, 0x76, 0x31, 0x3b, 0x71, 0x75, 0x65, 0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x72, 0x63, 0x68, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x42, 0x36, 0x5a, 0x34, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x66, 0x6c, 0x6f, 0x77, 0x73, 0x68, 0x6f, 0x74, 0x2d, 0x69, 0x6f, 0x2f, 0x6e, 0x61, 0x76, 0x69,
+	0x67, 0x61, 0x74, 0x6f, 0x72, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x3b, 0x71, 0x75, 0x65,
+	0x72, 0x79, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -870,45 +374,24 @@ func file_navigator_api_queryservice_v1_service_proto_rawDescGZIP() []byte {
 	return file_navigator_api_queryservice_v1_service_proto_rawDescData
 }
 
-var file_navigator_api_queryservice_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_navigator_api_queryservice_v1_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_navigator_api_queryservice_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_navigator_api_queryservice_v1_service_proto_goTypes = []interface{}{
-	(*Asset)(nil),                  // 0: flowshot.navigator.api.queryservice.v1.Asset
-	(*SearchRequest)(nil),          // 1: flowshot.navigator.api.queryservice.v1.SearchRequest
-	(*SearchResult)(nil),           // 2: flowshot.navigator.api.queryservice.v1.SearchResult
-	(*SearchResponse)(nil),         // 3: flowshot.navigator.api.queryservice.v1.SearchResponse
-	(*RecommendAssetRequest)(nil),  // 4: flowshot.navigator.api.queryservice.v1.RecommendAssetRequest
-	(*RecommendAssetResult)(nil),   // 5: flowshot.navigator.api.queryservice.v1.RecommendAssetResult
-	(*RecommendAssetResponse)(nil), // 6: flowshot.navigator.api.queryservice.v1.RecommendAssetResponse
-	(*GetAssetRequest)(nil),        // 7: flowshot.navigator.api.queryservice.v1.GetAssetRequest
-	(*GetAssetResponse)(nil),       // 8: flowshot.navigator.api.queryservice.v1.GetAssetResponse
-	(*ListAssetsRequest)(nil),      // 9: flowshot.navigator.api.queryservice.v1.ListAssetsRequest
-	(*ListAssetsResponse)(nil),     // 10: flowshot.navigator.api.queryservice.v1.ListAssetsResponse
-	nil,                            // 11: flowshot.navigator.api.queryservice.v1.Asset.MetadataEntry
-	nil,                            // 12: flowshot.navigator.api.queryservice.v1.Asset.AlternativesEntry
-	(*timestamp.Timestamp)(nil),    // 13: google.protobuf.Timestamp
+	(SearchType)(0),             // 0: flowshot.navigator.api.queryservice.v1.SearchType
+	(*SearchFilesRequest)(nil),  // 1: flowshot.navigator.api.queryservice.v1.SearchFilesRequest
+	(*SearchResult)(nil),        // 2: flowshot.navigator.api.queryservice.v1.SearchResult
+	(*SearchFilesResponse)(nil), // 3: flowshot.navigator.api.queryservice.v1.SearchFilesResponse
 }
 var file_navigator_api_queryservice_v1_service_proto_depIdxs = []int32{
-	11, // 0: flowshot.navigator.api.queryservice.v1.Asset.metadata:type_name -> flowshot.navigator.api.queryservice.v1.Asset.MetadataEntry
-	12, // 1: flowshot.navigator.api.queryservice.v1.Asset.alternatives:type_name -> flowshot.navigator.api.queryservice.v1.Asset.AlternativesEntry
-	13, // 2: flowshot.navigator.api.queryservice.v1.Asset.createdAt:type_name -> google.protobuf.Timestamp
-	13, // 3: flowshot.navigator.api.queryservice.v1.Asset.updatedAt:type_name -> google.protobuf.Timestamp
-	2,  // 4: flowshot.navigator.api.queryservice.v1.SearchResponse.results:type_name -> flowshot.navigator.api.queryservice.v1.SearchResult
-	5,  // 5: flowshot.navigator.api.queryservice.v1.RecommendAssetResponse.results:type_name -> flowshot.navigator.api.queryservice.v1.RecommendAssetResult
-	0,  // 6: flowshot.navigator.api.queryservice.v1.GetAssetResponse.asset:type_name -> flowshot.navigator.api.queryservice.v1.Asset
-	0,  // 7: flowshot.navigator.api.queryservice.v1.ListAssetsResponse.assets:type_name -> flowshot.navigator.api.queryservice.v1.Asset
-	1,  // 8: flowshot.navigator.api.queryservice.v1.QueryService.Search:input_type -> flowshot.navigator.api.queryservice.v1.SearchRequest
-	4,  // 9: flowshot.navigator.api.queryservice.v1.QueryService.RecommendAsset:input_type -> flowshot.navigator.api.queryservice.v1.RecommendAssetRequest
-	7,  // 10: flowshot.navigator.api.queryservice.v1.QueryService.GetAsset:input_type -> flowshot.navigator.api.queryservice.v1.GetAssetRequest
-	9,  // 11: flowshot.navigator.api.queryservice.v1.QueryService.ListAssets:input_type -> flowshot.navigator.api.queryservice.v1.ListAssetsRequest
-	3,  // 12: flowshot.navigator.api.queryservice.v1.QueryService.Search:output_type -> flowshot.navigator.api.queryservice.v1.SearchResponse
-	6,  // 13: flowshot.navigator.api.queryservice.v1.QueryService.RecommendAsset:output_type -> flowshot.navigator.api.queryservice.v1.RecommendAssetResponse
-	8,  // 14: flowshot.navigator.api.queryservice.v1.QueryService.GetAsset:output_type -> flowshot.navigator.api.queryservice.v1.GetAssetResponse
-	10, // 15: flowshot.navigator.api.queryservice.v1.QueryService.ListAssets:output_type -> flowshot.navigator.api.queryservice.v1.ListAssetsResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	0, // 0: flowshot.navigator.api.queryservice.v1.SearchFilesRequest.type:type_name -> flowshot.navigator.api.queryservice.v1.SearchType
+	2, // 1: flowshot.navigator.api.queryservice.v1.SearchFilesResponse.results:type_name -> flowshot.navigator.api.queryservice.v1.SearchResult
+	1, // 2: flowshot.navigator.api.queryservice.v1.QueryService.SearchFiles:input_type -> flowshot.navigator.api.queryservice.v1.SearchFilesRequest
+	3, // 3: flowshot.navigator.api.queryservice.v1.QueryService.SearchFiles:output_type -> flowshot.navigator.api.queryservice.v1.SearchFilesResponse
+	3, // [3:4] is the sub-list for method output_type
+	2, // [2:3] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_navigator_api_queryservice_v1_service_proto_init() }
@@ -918,7 +401,7 @@ func file_navigator_api_queryservice_v1_service_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_navigator_api_queryservice_v1_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Asset); i {
+			switch v := v.(*SearchFilesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -930,18 +413,6 @@ func file_navigator_api_queryservice_v1_service_proto_init() {
 			}
 		}
 		file_navigator_api_queryservice_v1_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SearchResult); i {
 			case 0:
 				return &v.state
@@ -953,92 +424,8 @@ func file_navigator_api_queryservice_v1_service_proto_init() {
 				return nil
 			}
 		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecommendAssetRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecommendAssetResult); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecommendAssetResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAssetRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAssetResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAssetsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_navigator_api_queryservice_v1_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAssetsResponse); i {
+		file_navigator_api_queryservice_v1_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchFilesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1055,13 +442,14 @@ func file_navigator_api_queryservice_v1_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_navigator_api_queryservice_v1_service_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   13,
+			NumEnums:      1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_navigator_api_queryservice_v1_service_proto_goTypes,
 		DependencyIndexes: file_navigator_api_queryservice_v1_service_proto_depIdxs,
+		EnumInfos:         file_navigator_api_queryservice_v1_service_proto_enumTypes,
 		MessageInfos:      file_navigator_api_queryservice_v1_service_proto_msgTypes,
 	}.Build()
 	File_navigator_api_queryservice_v1_service_proto = out.File
@@ -1082,10 +470,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryServiceClient interface {
-	Search(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
-	RecommendAsset(ctx context.Context, in *RecommendAssetRequest, opts ...grpc.CallOption) (*RecommendAssetResponse, error)
-	GetAsset(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*GetAssetResponse, error)
-	ListAssets(ctx context.Context, in *ListAssetsRequest, opts ...grpc.CallOption) (*ListAssetsResponse, error)
+	SearchFiles(ctx context.Context, in *SearchFilesRequest, opts ...grpc.CallOption) (*SearchFilesResponse, error)
 }
 
 type queryServiceClient struct {
@@ -1096,36 +481,9 @@ func NewQueryServiceClient(cc grpc.ClientConnInterface) QueryServiceClient {
 	return &queryServiceClient{cc}
 }
 
-func (c *queryServiceClient) Search(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
-	out := new(SearchResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.queryservice.v1.QueryService/Search", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryServiceClient) RecommendAsset(ctx context.Context, in *RecommendAssetRequest, opts ...grpc.CallOption) (*RecommendAssetResponse, error) {
-	out := new(RecommendAssetResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.queryservice.v1.QueryService/RecommendAsset", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryServiceClient) GetAsset(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*GetAssetResponse, error) {
-	out := new(GetAssetResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.queryservice.v1.QueryService/GetAsset", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryServiceClient) ListAssets(ctx context.Context, in *ListAssetsRequest, opts ...grpc.CallOption) (*ListAssetsResponse, error) {
-	out := new(ListAssetsResponse)
-	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.queryservice.v1.QueryService/ListAssets", in, out, opts...)
+func (c *queryServiceClient) SearchFiles(ctx context.Context, in *SearchFilesRequest, opts ...grpc.CallOption) (*SearchFilesResponse, error) {
+	out := new(SearchFilesResponse)
+	err := c.cc.Invoke(ctx, "/flowshot.navigator.api.queryservice.v1.QueryService/SearchFiles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1134,101 +492,35 @@ func (c *queryServiceClient) ListAssets(ctx context.Context, in *ListAssetsReque
 
 // QueryServiceServer is the server API for QueryService service.
 type QueryServiceServer interface {
-	Search(context.Context, *SearchRequest) (*SearchResponse, error)
-	RecommendAsset(context.Context, *RecommendAssetRequest) (*RecommendAssetResponse, error)
-	GetAsset(context.Context, *GetAssetRequest) (*GetAssetResponse, error)
-	ListAssets(context.Context, *ListAssetsRequest) (*ListAssetsResponse, error)
+	SearchFiles(context.Context, *SearchFilesRequest) (*SearchFilesResponse, error)
 }
 
 // UnimplementedQueryServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedQueryServiceServer struct {
 }
 
-func (*UnimplementedQueryServiceServer) Search(context.Context, *SearchRequest) (*SearchResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
-}
-func (*UnimplementedQueryServiceServer) RecommendAsset(context.Context, *RecommendAssetRequest) (*RecommendAssetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RecommendAsset not implemented")
-}
-func (*UnimplementedQueryServiceServer) GetAsset(context.Context, *GetAssetRequest) (*GetAssetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAsset not implemented")
-}
-func (*UnimplementedQueryServiceServer) ListAssets(context.Context, *ListAssetsRequest) (*ListAssetsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAssets not implemented")
+func (*UnimplementedQueryServiceServer) SearchFiles(context.Context, *SearchFilesRequest) (*SearchFilesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchFiles not implemented")
 }
 
 func RegisterQueryServiceServer(s *grpc.Server, srv QueryServiceServer) {
 	s.RegisterService(&_QueryService_serviceDesc, srv)
 }
 
-func _QueryService_Search_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchRequest)
+func _QueryService_SearchFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchFilesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServiceServer).Search(ctx, in)
+		return srv.(QueryServiceServer).SearchFiles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.queryservice.v1.QueryService/Search",
+		FullMethod: "/flowshot.navigator.api.queryservice.v1.QueryService/SearchFiles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServiceServer).Search(ctx, req.(*SearchRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _QueryService_RecommendAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RecommendAssetRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServiceServer).RecommendAsset(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.queryservice.v1.QueryService/RecommendAsset",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServiceServer).RecommendAsset(ctx, req.(*RecommendAssetRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _QueryService_GetAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAssetRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServiceServer).GetAsset(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.queryservice.v1.QueryService/GetAsset",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServiceServer).GetAsset(ctx, req.(*GetAssetRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _QueryService_ListAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListAssetsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServiceServer).ListAssets(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/flowshot.navigator.api.queryservice.v1.QueryService/ListAssets",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServiceServer).ListAssets(ctx, req.(*ListAssetsRequest))
+		return srv.(QueryServiceServer).SearchFiles(ctx, req.(*SearchFilesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1238,20 +530,8 @@ var _QueryService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Search",
-			Handler:    _QueryService_Search_Handler,
-		},
-		{
-			MethodName: "RecommendAsset",
-			Handler:    _QueryService_RecommendAsset_Handler,
-		},
-		{
-			MethodName: "GetAsset",
-			Handler:    _QueryService_GetAsset_Handler,
-		},
-		{
-			MethodName: "ListAssets",
-			Handler:    _QueryService_ListAssets_Handler,
+			MethodName: "SearchFiles",
+			Handler:    _QueryService_SearchFiles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
